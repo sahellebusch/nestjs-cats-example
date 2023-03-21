@@ -4,7 +4,7 @@ import { CatsService } from './cats.service';
 
 describe('CatsService', () => {
   let service: CatsService;
-  let httpService: HttpService;
+  let httpService: jest.Mocked<HttpService>;
 
   beforeEach(async () => {
     const { unit, unitRef } = TestBed.create(CatsService)
