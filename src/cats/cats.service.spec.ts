@@ -1,18 +1,23 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestBed } from '@automock/jest';
+import { HttpService } from '@nestjs/axios';
 import { CatsService } from './cats.service';
 
 describe('CatsService', () => {
   let service: CatsService;
+  let httpService: HttpService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [CatsService],
-    }).compile();
+    const { unit, unitRef } = TestBed.create(CatsService)
+      .mock(HttpService)
+      .using({ get: jest.fn() })
+      .compile();
 
-    service = module.get<CatsService>(CatsService);
+    service = unit;
+    httpService = unitRef.get(HttpService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('will get a cat', async () => {
+    service.findCat();
+    expect(httpService.get).toHaveBeenCalled();
   });
 });

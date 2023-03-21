@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class CatsService {
   constructor(private readonly httpService: HttpService) {}
 
-  findAll() {
-    return `This action returns all cats`;
+  findCat() {
+    return this.httpService.get('https://cataas.com/cat?json=true');
   }
 }
